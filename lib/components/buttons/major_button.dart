@@ -6,14 +6,11 @@ class MajorButton extends StatelessWidget {
   const MajorButton({
     required this.text,
     required this.onTap,
-    this.leftMargin,
-    this.rightMargin,
     super.key,
   });
   final String text;
   final Function() onTap;
-  final int? leftMargin;
-  final int? rightMargin;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(

@@ -2,28 +2,28 @@ import 'package:delever_app/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainTextField extends StatelessWidget {
-  MainTextField({
+class PasswordField extends StatelessWidget {
+  PasswordField({
     super.key,
     required this.textController,
     required this.hint,
     required this.prefix,
-    this.suffixVisibility,
   });
 
   final TextEditingController textController;
   final IconData prefix;
-  final bool? suffixVisibility;
   final String hint;
 
-  final MainTextFieldController _controller =
-      Get.put(MainTextFieldController());
+  //----------initializong controller
+  final PasswordFieldController _controller =
+      Get.put<PasswordFieldController>(PasswordFieldController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => TextField(
-        obscureText: !_controller.isObsecure.value,
+        controller: textController,
+        obscureText: _controller.isObsecure.value,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.symmetric(
             vertical: 20,
@@ -40,23 +40,11 @@ class MainTextField extends StatelessWidget {
               color: kicon(),
             ),
           ),
-          suffixIcon: Visibility(
-            visible: suffixVisibility ?? false,
-            child: Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: _controller.isObsecure.value
-                    ? IconButton(
-                        onPressed: () {
-                          _controller.visibilityToggle();
-                        },
-                        icon: const Icon(Icons.visibility_outlined),
-                      )
-                    : IconButton(
-                        onPressed: () {
-                          _controller.visibilityToggle();
-                        },
-                        icon: const Icon(Icons.visibility_off_outlined),
-                      )),
+          suffixIcon: IconButton(
+            onPressed: () => _controller.changeObsecure(),
+            icon: _controller.isObsecure.value
+                ? const Icon(Icons.visibility_off_outlined)
+                : const Icon(Icons.visibility_outlined),
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -71,10 +59,10 @@ class MainTextField extends StatelessWidget {
   }
 }
 
-class MainTextFieldController extends GetxController {
-  RxBool isObsecure = RxBool(false);
+class PasswordFieldController extends GetxController {
+  RxBool isObsecure = RxBool(true);
 
-  void visibilityToggle() {
+  void changeObsecure() {
     isObsecure.value = !isObsecure.value;
   }
 }

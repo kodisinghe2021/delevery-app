@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:logger/logger.dart';
 
-class LoginController extends GetxController {
+class RegistrationController extends GetxController {
   //-------------- create firebse auth instnce
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -17,13 +17,14 @@ class LoginController extends GetxController {
   //--------------------------------login with email and password
   Future<void> loginWithEmail() async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email.text.trim(),
         password: password.text,
       );
       getDialogBox(
         "Success",
-        "You are Logged now",
+        "You are welcome ${userCredential.user!.email}",
         kSuccess(),
       );
     } on FirebaseAuthException catch (e) {
@@ -56,7 +57,7 @@ class LoginController extends GetxController {
           await FirebaseAuth.instance.signInWithCredential(credential);
       await getDialogBox(
         "Successfull",
-        "Login Success",
+        "Registration Success",
         kSuccess(),
       );
 
